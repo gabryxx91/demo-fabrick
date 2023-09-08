@@ -1,17 +1,16 @@
-package com.example.demo.fabrick.dto;
+package com.example.demo.fabrick.dto.moneytransfer.response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.io.Serializable;
 import java.util.List;
 
-public class AccountBalanceResponse implements Serializable {
+public class MoneyTransferResponse implements Serializable {
 
     @JsonProperty
     private String status;
     @JsonProperty
-    private List<String> error;
-
+    private List<Error> errors;
     @JsonProperty
     private Payload payload;
 
@@ -23,12 +22,12 @@ public class AccountBalanceResponse implements Serializable {
         this.status = status;
     }
 
-    public List<String> getError() {
-        return error;
+    public List<Error> getErrors() {
+        return errors;
     }
 
-    public void setError(List<String> error) {
-        this.error = error;
+    public void setErrors(List<Error> errors) {
+        this.errors = errors;
     }
 
     public Payload getPayload() {

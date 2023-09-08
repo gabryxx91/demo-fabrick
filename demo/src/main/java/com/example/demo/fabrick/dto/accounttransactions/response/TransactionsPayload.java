@@ -1,5 +1,6 @@
-package com.example.demo.fabrick.dto;
+package com.example.demo.fabrick.dto.accounttransactions.response;
 
+import com.example.demo.fabrick.dto.accounttransactions.response.Transactions;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.io.Serializable;

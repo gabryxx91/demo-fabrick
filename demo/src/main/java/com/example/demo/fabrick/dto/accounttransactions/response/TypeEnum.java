@@ -1,4 +1,4 @@
-package com.example.demo.fabrick.dto;
+package com.example.demo.fabrick.dto.accounttransactions.response;
 
 import java.io.Serializable;
 
