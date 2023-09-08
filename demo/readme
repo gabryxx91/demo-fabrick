@@ -1,0 +1,6 @@
+COME LANCIARE IL PROGRAMMA
+
+Dopo aver eseguito il package lanciare il jar generato col comando:
+java -jar fabrick-demo.jar
+
+Sotto il package controller sono disponibili gli endpoint rest da invocare.
