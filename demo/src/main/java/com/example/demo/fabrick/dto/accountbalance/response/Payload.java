@@ -48,4 +48,14 @@ public class Payload implements Serializable {
     public void setCurrency(String currency) {
         this.currency = currency;
     }
+
+    @Override
+    public String toString() {
+        return "Payload{" +
+                "date=" + date +
+                ", balance=" + balance +
+                ", availableBalance=" + availableBalance +
+                ", currency='" + currency + '\'' +
+                '}';
+    }
 }

@@ -14,4 +14,37 @@ public class AccountTransactions implements Serializable {
 
     @JsonProperty
     private TransactionsPayload payload;
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public List<String> getError() {
+        return error;
+    }
+
+    public void setError(List<String> error) {
+        this.error = error;
+    }
+
+    public TransactionsPayload getPayload() {
+        return payload;
+    }
+
+    public void setPayload(TransactionsPayload payload) {
+        this.payload = payload;
+    }
+
+    @Override
+    public String toString() {
+        return "AccountTransactions{" +
+                "status='" + status + '\'' +
+                ", error=" + error +
+                ", payload=" + payload +
+                '}';
+    }
 }

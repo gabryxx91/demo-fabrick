@@ -1,5 +1,6 @@
 package com.example.demo.fabrick.dto.accountbalance.response;
 
+import com.example.demo.fabrick.dto.Response;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.io.Serializable;
@@ -37,5 +38,14 @@ public class AccountBalanceResponse implements Serializable {
 
     public void setPayload(Payload payload) {
         this.payload = payload;
+    }
+
+    @Override
+    public String toString() {
+        return "AccountBalanceResponse{" +
+                "status='" + status + '\'' +
+                ", error=" + error +
+                ", payload=" + payload +
+                '}';
     }
 }

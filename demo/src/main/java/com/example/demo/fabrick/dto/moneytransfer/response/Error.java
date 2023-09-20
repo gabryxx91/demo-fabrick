@@ -36,4 +36,13 @@ public class Error implements Serializable {
     public void setParams(String params) {
         this.params = params;
     }
+
+    @Override
+    public String toString() {
+        return "Error{" +
+                "code='" + code + '\'' +
+                ", description='" + description + '\'' +
+                ", params='" + params + '\'' +
+                '}';
+    }
 }

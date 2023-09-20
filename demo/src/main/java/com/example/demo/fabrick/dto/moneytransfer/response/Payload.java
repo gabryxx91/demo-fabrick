@@ -16,4 +16,11 @@ public class Payload implements Serializable {
     public void setMoneyTransferId(String moneyTransferId) {
         this.moneyTransferId = moneyTransferId;
     }
+
+    @Override
+    public String toString() {
+        return "Payload{" +
+                "moneyTransferId='" + moneyTransferId + '\'' +
+                '}';
+    }
 }

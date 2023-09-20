@@ -37,4 +37,13 @@ public class MoneyTransferResponse implements Serializable {
     public void setPayload(Payload payload) {
         this.payload = payload;
     }
+
+    @Override
+    public String toString() {
+        return "MoneyTransferResponse{" +
+                "status='" + status + '\'' +
+                ", errors=" + errors +
+                ", payload=" + payload +
+                '}';
+    }
 }

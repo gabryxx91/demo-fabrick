@@ -1,9 +1,12 @@
 package com.example.demo.fabrick.client;
 
+import com.example.demo.fabrick.dto.Response;
 import com.example.demo.fabrick.dto.accountbalance.response.AccountBalanceResponse;
 import com.example.demo.fabrick.dto.accounttransactions.response.AccountTransactions;
 import com.example.demo.fabrick.dto.moneytransfer.request.MoneyTransferBody;
 import com.example.demo.fabrick.dto.moneytransfer.response.MoneyTransferResponse;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
@@ -37,27 +40,41 @@ public class RestClient {
     @Value("${fabrick.api.key}")
     private String apiKey;
 
+    Logger logger = LoggerFactory.getLogger(RestClient.class);
+
     private RestTemplate restTemplate;
 
     public RestClient() {
         this.restTemplate = new RestTemplate();
     }
 
-    public ResponseEntity<AccountBalanceResponse> getCashAccountBalance(Long accountId) {
+    public Response getCashAccountBalance(Long accountId) {
         Map<String, Long> uriParams = new HashMap<>();
         uriParams.put("accountId", accountId);
         HttpEntity<Void> requestEntity = new HttpEntity<>(addHeaders());
-        ResponseEntity<AccountBalanceResponse> response;
+
+        ResponseEntity<AccountBalanceResponse> serviceResponse;
+        Response response = new Response();
         try {
-            response = restTemplate.exchange(basePath + accountBalancePath, HttpMethod.GET, requestEntity, AccountBalanceResponse.class, uriParams);
+            logger.info("Sending cashAccountBalance request");
+            serviceResponse = restTemplate.exchange(basePath + accountBalancePath, HttpMethod.GET, requestEntity, AccountBalanceResponse.class, uriParams);
+            logger.info("Got response from cashAccountBalance service: " + serviceResponse.getBody());
+            response.setStatusCode(HttpStatus.OK);
+            response.setResponse(serviceResponse.getBody());
         } catch (HttpClientErrorException e) {
+            logger.error("Got error from cashAccountBalance service: " + e.getMessage());
             AccountBalanceResponse res = e.getResponseBodyAs(AccountBalanceResponse.class);
-            return new ResponseEntity<>(res, e.getStatusCode());
+            response.setResponse(res);
+            response.setStatusCode(e.getStatusCode());
+        } catch (Exception e) {
+            logger.error("Got error from cashAccountBalance service: " + e.getMessage());
+            response.setStatusCode(HttpStatus.INTERNAL_SERVER_ERROR);
+            response.setResponse(new AccountBalanceResponse());
         }
         return response;
     }
 
-    public ResponseEntity<AccountTransactions> getAccountTransactions(Long accountId, LocalDate fromAccountingDate, LocalDate toAccountingDate) {
+    public Response getAccountTransactions(Long accountId, LocalDate fromAccountingDate, LocalDate toAccountingDate) {
         Map<String, Long> uriParams = new HashMap<>();
         uriParams.put("accountId", accountId);
         UriComponents builder = UriComponentsBuilder.fromHttpUrl(basePath + transactionsPath)
@@ -65,28 +82,50 @@ public class RestClient {
                 .queryParam("toAccountingDate", toAccountingDate)
                 .build();
         HttpEntity<Void> requestEntity = new HttpEntity<>(addHeaders());
-        ResponseEntity<AccountTransactions> response;
+        ResponseEntity<AccountTransactions> serviceResponse;
+        Response response = new Response();
         try {
-            response = restTemplate.exchange(builder.toUriString(), HttpMethod.GET, requestEntity, AccountTransactions.class, uriParams);
+            logger.info("Sending accountTransactions request");
+            serviceResponse = restTemplate.exchange(builder.toUriString(), HttpMethod.GET, requestEntity, AccountTransactions.class, uriParams);
+            logger.info("Got response from accountTransactions service: " + serviceResponse.getBody());
+            response.setStatusCode(HttpStatus.OK);
+            response.setResponse(serviceResponse.getBody());
         } catch (HttpClientErrorException e) {
+            logger.error("Got error from cashAccountBalance service: " + e.getMessage());
             AccountTransactions res = e.getResponseBodyAs(AccountTransactions.class);
-            return new ResponseEntity<>(res, e.getStatusCode());
+            response.setResponse(res);
+            response.setStatusCode(e.getStatusCode());
+        } catch (Exception e) {
+            logger.error("Got error from cashAccountBalance service: " + e.getMessage());
+            response.setStatusCode(HttpStatus.INTERNAL_SERVER_ERROR);
+            response.setResponse(new AccountTransactions());
         }
         return response;
     }
 
-    public ResponseEntity<MoneyTransferResponse> moneyTransfer(Long accountId, MoneyTransferBody body) {
+    public Response moneyTransfer(Long accountId, MoneyTransferBody body) {
         Map<String, Long> uriParams = new HashMap<>();
         uriParams.put("accountId", accountId);
         HttpHeaders headers = addHeaders();
         headers.add("X-Time-Zone", "Europe/Rome");
         HttpEntity<MoneyTransferBody> requestEntity = new HttpEntity<>(body, headers);
-        ResponseEntity<MoneyTransferResponse> response;
+        ResponseEntity<MoneyTransferResponse> serviceResponse;
+        Response response = new Response();
         try {
-            response = restTemplate.exchange(basePath + moneyTransferPath, HttpMethod.POST, requestEntity, MoneyTransferResponse.class, uriParams);
+            logger.info("Sending moneyTransfer request");
+            serviceResponse = restTemplate.exchange(basePath + moneyTransferPath, HttpMethod.POST, requestEntity, MoneyTransferResponse.class, uriParams);
+            logger.info("Got response from moneyTransfer service: " + serviceResponse.getBody());
+            response.setStatusCode(HttpStatus.OK);
+            response.setResponse(serviceResponse.getBody());
         } catch (HttpClientErrorException e) {
+            logger.error("Got error from cashAccountBalance service: " + e.getMessage());
             MoneyTransferResponse res = e.getResponseBodyAs(MoneyTransferResponse.class);
-            return new ResponseEntity<>(res, e.getStatusCode());
+            response.setResponse(res);
+            response.setStatusCode(e.getStatusCode());
+        } catch (Exception e) {
+            logger.error("Got error from cashAccountBalance service: " + e.getMessage());
+            response.setStatusCode(HttpStatus.INTERNAL_SERVER_ERROR);
+            response.setResponse(new MoneyTransferResponse());
         }
         return response;
     }

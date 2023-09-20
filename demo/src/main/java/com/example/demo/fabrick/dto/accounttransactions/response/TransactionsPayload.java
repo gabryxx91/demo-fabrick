@@ -19,5 +19,10 @@ public class TransactionsPayload implements Serializable {
         this.list = list;
     }
 
-
+    @Override
+    public String toString() {
+        return "TransactionsPayload{" +
+                "list=" + list +
+                '}';
+    }
 }

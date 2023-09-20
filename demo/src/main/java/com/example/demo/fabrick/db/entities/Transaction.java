@@ -1,28 +1,23 @@
-package com.example.demo.fabrick.dto.accounttransactions.response;
+package com.example.demo.fabrick.db.entities;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
 
-import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
-public class Transactions implements Serializable {
+@Entity
+public class Transaction {
 
-    @JsonProperty
+    @Id
     private String transactionId;
-    @JsonProperty
     private String operationId;
-    @JsonProperty
     private LocalDate accountingDate;
-    @JsonProperty
     private LocalDate valueDate;
-    @JsonProperty
-    private TypeEnum type;
-    @JsonProperty
+    private String enumeration;
+    private String value;
     private BigDecimal amount;
-    @JsonProperty
     private String currency;
-    @JsonProperty
     private String description;
 
     public String getTransactionId() {
@@ -57,12 +52,20 @@ public class Transactions implements Serializable {
         this.valueDate = valueDate;
     }
 
-    public TypeEnum getType() {
-        return type;
+    public String getEnumeration() {
+        return enumeration;
     }
 
-    public void setType(TypeEnum type) {
-        this.type = type;
+    public void setEnumeration(String enumeration) {
+        this.enumeration = enumeration;
+    }
+
+    public String getValue() {
+        return value;
+    }
+
+    public void setValue(String value) {
+        this.value = value;
     }
 
     public BigDecimal getAmount() {
@@ -87,19 +90,5 @@ public class Transactions implements Serializable {
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    @Override
-    public String toString() {
-        return "Transactions{" +
-                "transactionId='" + transactionId + '\'' +
-                ", operationId='" + operationId + '\'' +
-                ", accountingDate=" + accountingDate +
-                ", valueDate=" + valueDate +
-                ", type=" + type +
-                ", amount=" + amount +
-                ", currency='" + currency + '\'' +
-                ", description='" + description + '\'' +
-                '}';
     }
 }
