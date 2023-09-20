@@ -47,7 +47,7 @@ public class FabrickService {
                 dbList.add(trx);
             });
             transactionRepository.saveAll(dbList);
-            logger.info("Saved " + transactionsList.size() + "transactions on db");
+            logger.info("Saved " + transactionsList.size() + " transactions on db");
         }
         return response;
     }

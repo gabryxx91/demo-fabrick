@@ -1,8 +1,11 @@
 package com.example.demo.fabrick.dto.moneytransfer.request;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 
-import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -10,13 +13,19 @@ import java.time.LocalDate;
 public class MoneyTransferBody implements Serializable {
 
     @JsonProperty
+    @NotNull
+    @Valid
     private Creditor creditor;
     @JsonProperty
-    @Size(max = 140)
+    @NotNull
+    @Size(min = 1, max = 140)
     private String description;
     @JsonProperty
+    @NotNull
+    @Pattern(regexp = "^[A-Z]+$")
     private String currency;
     @JsonProperty
+    @NotNull
     private BigDecimal amount;
     @JsonProperty
     private LocalDate executionDate;

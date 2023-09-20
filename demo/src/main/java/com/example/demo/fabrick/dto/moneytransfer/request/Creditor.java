@@ -1,17 +1,22 @@
 package com.example.demo.fabrick.dto.moneytransfer.request;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 
-import javax.validation.constraints.Size;
 import java.io.Serializable;
 
 public class Creditor implements Serializable {
 
     @JsonProperty
-    @Size(max = 70)
+    @NotNull
+    @Size(min = 1, max = 70)
     private String name;
 
     @JsonProperty
+    @NotNull
+    @Valid
     private Account account;
 
     public String getName() {

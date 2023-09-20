@@ -6,6 +6,7 @@ import com.example.demo.fabrick.dto.accounttransactions.response.AccountTransact
 import com.example.demo.fabrick.dto.moneytransfer.request.MoneyTransferBody;
 import com.example.demo.fabrick.dto.moneytransfer.response.MoneyTransferResponse;
 import com.example.demo.fabrick.service.FabrickService;
+import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,7 +39,7 @@ public class FabrickController {
     }
 
     @PostMapping("accounts/{accountId}/payments/money-transfers")
-    public ResponseEntity<MoneyTransferResponse> moneyTransfer(@PathVariable Long accountId, @RequestBody MoneyTransferBody body) {
+    public ResponseEntity<MoneyTransferResponse> moneyTransfer(@PathVariable Long accountId, @Valid @RequestBody MoneyTransferBody body) {
         logger.info("Invoked moneyTransfer service");
         Response response = fabrickService.moneyTransfer(accountId, body);
         return new ResponseEntity<>((MoneyTransferResponse) response.getResponse(), response.getStatusCode());
