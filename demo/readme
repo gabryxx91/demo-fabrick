@@ -4,3 +4,7 @@ Dopo aver eseguito il package lanciare il jar generato col comando:
 java -jar fabrick-demo.jar
 
 Sotto il package controller sono disponibili gli endpoint rest da invocare.
+I test Junit sono presenti sotto il package test. E' possibile lanciare il test singolarmente cliccando accanto il nome del metodo di test.
+Come database per il salvataggio delle transazioni restitutite dal servizio /transactions ho usato il db in-memory h2, è possibile accedere
+alla consolle tramite l'indirizzo http://localhost:8080/fabrickDemo/h2-console con le credenziali presenti nel file application.properties
+per poter visionare le transazioni inserite nella tabella TRANSACTION.
