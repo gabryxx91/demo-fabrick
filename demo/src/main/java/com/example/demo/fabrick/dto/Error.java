@@ -1,4 +1,4 @@
-package com.example.demo.fabrick.dto.moneytransfer.response;
+package com.example.demo.fabrick.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 

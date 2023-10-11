@@ -1,34 +1,13 @@
 package com.example.demo.fabrick.dto.moneytransfer.response;
 
+import com.example.demo.fabrick.dto.CommonFieldsResponse;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.io.Serializable;
-import java.util.List;
 
-public class MoneyTransferResponse implements Serializable {
-
-    @JsonProperty
-    private String status;
-    @JsonProperty
-    private List<Error> errors;
+public class MoneyTransferResponse extends CommonFieldsResponse implements Serializable {
     @JsonProperty
     private Payload payload;
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
-    public List<Error> getErrors() {
-        return errors;
-    }
-
-    public void setErrors(List<Error> errors) {
-        this.errors = errors;
-    }
 
     public Payload getPayload() {
         return payload;
@@ -41,9 +20,7 @@ public class MoneyTransferResponse implements Serializable {
     @Override
     public String toString() {
         return "MoneyTransferResponse{" +
-                "status='" + status + '\'' +
-                ", errors=" + errors +
-                ", payload=" + payload +
+                "payload=" + payload +
                 '}';
     }
 }

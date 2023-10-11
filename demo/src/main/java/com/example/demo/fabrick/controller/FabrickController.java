@@ -1,16 +1,16 @@
 package com.example.demo.fabrick.controller;
 
-import com.example.demo.fabrick.dto.Response;
 import com.example.demo.fabrick.dto.accountbalance.response.AccountBalanceResponse;
 import com.example.demo.fabrick.dto.accounttransactions.response.AccountTransactions;
 import com.example.demo.fabrick.dto.moneytransfer.request.MoneyTransferBody;
 import com.example.demo.fabrick.dto.moneytransfer.response.MoneyTransferResponse;
+import com.example.demo.fabrick.exceptions.InvalidDateException;
 import com.example.demo.fabrick.service.FabrickService;
+import com.example.demo.fabrick.validation.DateValidator;
 import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
@@ -24,25 +24,25 @@ public class FabrickController {
     private FabrickService fabrickService;
 
     @GetMapping("/accounts/{accountId}/balance")
-    public ResponseEntity<AccountBalanceResponse> getCashAccountBalance(@PathVariable Long accountId) {
+    public AccountBalanceResponse getCashAccountBalance(@PathVariable Long accountId) throws Exception {
         logger.info("Invoked getCashAccountBalance service");
-        Response response = fabrickService.getCashAccountBalance(accountId);
-        return new ResponseEntity<>((AccountBalanceResponse) response.getResponse(), response.getStatusCode());
+        return fabrickService.getCashAccountBalance(accountId);
     }
 
     @GetMapping("/accounts/{accountId}/transactions")
-    public ResponseEntity<AccountTransactions> getAccountTransactions(@PathVariable Long accountId, @RequestParam LocalDate fromAccountingDate,
-                                                            @RequestParam LocalDate toAccountingDate) {
+    public AccountTransactions getAccountTransactions(@PathVariable Long accountId, @RequestParam LocalDate fromAccountingDate,
+                                                      @RequestParam LocalDate toAccountingDate) throws Exception {
         logger.info("Invoked getAccountTransactions service");
-        Response response = fabrickService.getAccountTransactions(accountId, fromAccountingDate, toAccountingDate);
-        return new ResponseEntity<>((AccountTransactions) response.getResponse(), response.getStatusCode());
+        if (new DateValidator().validate(fromAccountingDate, toAccountingDate)) {
+            throw new InvalidDateException("fromAccountingDate", "fromAccountingDate greater than toAccountingDate");
+        }
+        return fabrickService.getAccountTransactions(accountId, fromAccountingDate, toAccountingDate);
     }
 
     @PostMapping("accounts/{accountId}/payments/money-transfers")
-    public ResponseEntity<MoneyTransferResponse> moneyTransfer(@PathVariable Long accountId, @Valid @RequestBody MoneyTransferBody body) {
+    public MoneyTransferResponse moneyTransfer(@PathVariable Long accountId, @Valid @RequestBody MoneyTransferBody body) throws Exception {
         logger.info("Invoked moneyTransfer service");
-        Response response = fabrickService.moneyTransfer(accountId, body);
-        return new ResponseEntity<>((MoneyTransferResponse) response.getResponse(), response.getStatusCode());
+        return fabrickService.moneyTransfer(accountId, body);
     }
 
 }

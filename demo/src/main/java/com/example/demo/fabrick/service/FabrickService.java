@@ -3,10 +3,11 @@ package com.example.demo.fabrick.service;
 import com.example.demo.fabrick.client.RestClient;
 import com.example.demo.fabrick.db.entities.Transaction;
 import com.example.demo.fabrick.db.repository.TransactionRepository;
-import com.example.demo.fabrick.dto.Response;
+import com.example.demo.fabrick.dto.accountbalance.response.AccountBalanceResponse;
 import com.example.demo.fabrick.dto.accounttransactions.response.AccountTransactions;
 import com.example.demo.fabrick.dto.accounttransactions.response.Transactions;
 import com.example.demo.fabrick.dto.moneytransfer.request.MoneyTransferBody;
+import com.example.demo.fabrick.dto.moneytransfer.response.MoneyTransferResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
@@ -28,13 +29,12 @@ public class FabrickService {
     @Autowired
     private TransactionRepository transactionRepository;
 
-    public Response getCashAccountBalance(Long accountId) {
+    public AccountBalanceResponse getCashAccountBalance(Long accountId) throws Exception {
         return restClient.getCashAccountBalance(accountId);
     }
 
-    public Response getAccountTransactions(Long accountId, LocalDate fromAccountingDate, LocalDate toAccountingDate) {
-        Response response = restClient.getAccountTransactions(accountId, fromAccountingDate, toAccountingDate);
-        AccountTransactions responseInternal = (AccountTransactions) response.getResponse();
+    public AccountTransactions getAccountTransactions(Long accountId, LocalDate fromAccountingDate, LocalDate toAccountingDate) throws Exception {
+        AccountTransactions responseInternal = restClient.getAccountTransactions(accountId, fromAccountingDate, toAccountingDate);
         List<Transactions> transactionsList = responseInternal.getPayload().getList();
         if (null != transactionsList && !transactionsList.isEmpty()) {
             logger.info("Saving returned transactions on db");
@@ -49,10 +49,10 @@ public class FabrickService {
             transactionRepository.saveAll(dbList);
             logger.info("Saved " + transactionsList.size() + " transactions on db");
         }
-        return response;
+        return responseInternal;
     }
 
-    public Response moneyTransfer(Long accountId, MoneyTransferBody body) {
+    public MoneyTransferResponse moneyTransfer(Long accountId, MoneyTransferBody body) throws Exception {
          return restClient.moneyTransfer(accountId, body);
     }
 }
